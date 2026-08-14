@@ -1,14 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:requestee/data/app_store.dart';
+import 'package:requestee/data/auth_controller.dart';
+import 'package:requestee/data/settings_controller.dart';
 import 'package:requestee/main.dart';
+import 'package:requestee/services/auth_service.dart';
 import 'package:requestee/widgets/shop_card.dart';
+
+Future<AuthController> _signedInAuth() async {
+  final auth = AuthController(DemoAuthService());
+  await auth.restore();
+  await auth.signUp('demo@requestee.app', 'password123');
+  return auth;
+}
+
+Future<void> _pumpApp(WidgetTester tester, AppStore store) async {
+  await tester.pumpWidget(
+    RequestTApp(
+      store: store,
+      auth: await _signedInAuth(),
+      settings: SettingsController(),
+    ),
+  );
+  await tester.pumpAndSettle();
+}
 
 void main() {
   testWidgets('full post → match → book → confirm → rate flow', (tester) async {
     final store = AppStore();
-    await tester.pumpWidget(RequestTApp(store: store));
-    await tester.pumpAndSettle();
+    await _pumpApp(tester, store);
 
     // Home: type an issue and submit.
     expect(find.text("What's going on?"), findsOneWidget);
@@ -77,8 +97,7 @@ void main() {
 
   testWidgets('category tile starts a matching flow', (tester) async {
     final store = AppStore()..matchingDelay = const Duration(milliseconds: 300);
-    await tester.pumpWidget(RequestTApp(store: store));
-    await tester.pumpAndSettle();
+    await _pumpApp(tester, store);
 
     await tester.tap(find.text('Plumbing'));
     await tester.pump();
@@ -91,8 +110,7 @@ void main() {
     tester,
   ) async {
     final store = AppStore()..matchingDelay = const Duration(milliseconds: 300);
-    await tester.pumpWidget(RequestTApp(store: store));
-    await tester.pumpAndSettle();
+    await _pumpApp(tester, store);
 
     // Select the Auto Service tile first…
     await tester.ensureVisible(find.text('Auto Service'));
