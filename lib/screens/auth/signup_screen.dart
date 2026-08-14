@@ -142,6 +142,10 @@ class _SignupScreenState extends State<SignupScreen> {
                     builder: (context, _) {
                       return OutlinedButton.icon(
                         onPressed: widget.auth.busy ? null : _google,
+                        style: OutlinedButton.styleFrom(
+                          foregroundColor: palette.charcoal,
+                          side: BorderSide(color: palette.mist, width: 1.2),
+                        ),
                         icon: const Text(
                           'G',
                           style: TextStyle(
