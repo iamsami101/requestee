@@ -1,21 +1,31 @@
 import 'package:flutter/material.dart';
 
 import '../data/app_store.dart';
+import '../data/auth_controller.dart';
 import '../data/classifier.dart';
+import '../data/settings_controller.dart';
 import '../models/category.dart';
 import '../models/service_request.dart';
-import '../theme/app_colors.dart';
+import '../theme/adaptive_palette.dart';
 import '../widgets/category_tile.dart';
 import 'matching_screen.dart';
 import 'my_requests_screen.dart';
+import 'settings_screen.dart';
 
 /// "What's going on?" — the requester's entry point (design.md §8).
 /// Friction at the start: user describes the issue; tapping a category or
 /// submitting text starts the match flow.
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key, required this.store});
+  const HomeScreen({
+    super.key,
+    required this.store,
+    required this.auth,
+    required this.settings,
+  });
 
   final AppStore store;
+  final AuthController auth;
+  final SettingsController settings;
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -63,6 +73,35 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: const Text('requesT'),
         actions: [
+          ListenableBuilder(
+            listenable: widget.auth,
+            builder: (context, _) {
+              final user = widget.auth.user;
+              return IconButton(
+                tooltip: 'Settings',
+                onPressed: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => SettingsScreen(
+                      auth: widget.auth,
+                      settings: widget.settings,
+                    ),
+                  ),
+                ),
+                icon: CircleAvatar(
+                  radius: 16,
+                  backgroundColor: theme.colorScheme.primary,
+                  child: Text(
+                    user?.initials ?? 'R',
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w700,
+                      color: theme.colorScheme.onPrimary,
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
           TextButton.icon(
             onPressed: () => Navigator.of(context).push(
               MaterialPageRoute(
@@ -88,7 +127,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Text(
               'Describe the problem in your own words — we\'ll match you '
               'with a nearby, verified shop that can actually fix it.',
-              style: text.bodyMedium?.copyWith(color: AppColors.slate),
+              style: text.bodyMedium?.copyWith(color: context.palette.slate),
             ),
             const SizedBox(height: 24),
             TextField(
@@ -128,7 +167,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     _controller.clear();
                   },
                   style: TextButton.styleFrom(
-                    foregroundColor: AppColors.slate,
+                    foregroundColor: context.palette.slate,
                     textStyle: text.labelMedium,
                   ),
                   child: const Text('Clear'),
