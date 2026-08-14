@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../data/app_store.dart';
 import '../data/classifier.dart';
 import '../models/category.dart';
 import '../models/service_request.dart';
 import '../theme/app_colors.dart';
-import '../theme/app_theme.dart';
 import '../widgets/category_tile.dart';
 import 'matching_screen.dart';
 import 'my_requests_screen.dart';
@@ -34,16 +32,17 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _submit(String text) {
-    if (text.trim().isEmpty && _selected == null) return;
-    final request = _selected == null
-        ? Classifier.classify(text)
+    final trimmed = text.trim();
+    if (trimmed.isEmpty && _selected == null) return;
+    final request = trimmed.isNotEmpty
+        // Typed descriptions are always classified fresh — never forced
+        // into the category the user last tapped.
+        ? Classifier.classify(trimmed)
         : ServiceRequest(
-            text: text.trim().isEmpty
-                ? _selected!.label
-                : '${_selected!.label}: ${text.trim()}',
+            text: _selected!.label,
             category: _selected!,
-            urgency: Classifier.inferUrgency(text),
-            mode: Classifier.inferMode(text),
+            urgency: UrgencyTier.standard,
+            mode: FulfilmentMode.appointment,
           );
     Navigator.of(context).push(
       MaterialPageRoute(
@@ -156,49 +155,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
               ],
             ),
-            const SizedBox(height: 24),
-            _PronunciationHint(text: text),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class _PronunciationHint extends StatelessWidget {
-  const _PronunciationHint({required this.text});
-
-  final TextTheme text;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: AppColors.mintWash,
-        borderRadius: BorderRadius.circular(AppTheme.radiusCard),
-      ),
-      child: Row(
-        children: [
-          Text('request', style: text.bodyMedium),
-          Text(
-            ' → ',
-            style: text.bodyMedium?.copyWith(color: AppColors.slate),
-          ),
-          Text(
-            'requesT',
-            style: GoogleFonts.spaceGrotesk(
-              fontSize: 16,
-              fontWeight: FontWeight.w700,
-              color: AppColors.deepTeal,
-            ),
-          ),
-          const SizedBox(width: 6),
-          Text(
-            '· say it: "requestee"',
-            style: text.labelMedium?.copyWith(color: AppColors.deepTeal),
-          ),
-        ],
       ),
     );
   }

@@ -86,4 +86,36 @@ void main() {
     expect(find.textContaining('Searching nearby'), findsOneWidget);
     await tester.pumpAndSettle();
   });
+
+  testWidgets('typed description is classified fresh, ignoring selected category', (
+    tester,
+  ) async {
+    final store = AppStore()..matchingDelay = const Duration(milliseconds: 300);
+    await tester.pumpWidget(RequestTApp(store: store));
+    await tester.pumpAndSettle();
+
+    // Select the Auto Service tile first…
+    await tester.ensureVisible(find.text('Auto Service'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Auto Service'));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 400));
+    await tester.pumpAndSettle();
+    // …back on home, type a plumbing request. It must NOT be forced into auto.
+    await tester.tap(find.byIcon(Icons.arrow_back_rounded));
+    await tester.pumpAndSettle();
+
+    // Scroll the lazy ListView back to the top so the TextField is built.
+    await tester.drag(find.byType(ListView), const Offset(0, 600));
+    await tester.pumpAndSettle();
+    await tester.enterText(find.byType(TextField), 'leaking pipe under sink');
+    await tester.tap(find.text('Find help'));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 400));
+    await tester.pumpAndSettle();
+
+    // Results must be plumbing shops — the earlier Auto Service selection
+    // must not have leaked into the typed request.
+    expect(find.text('Al-Ahmed Plumbing'), findsOneWidget);
+  });
 }
