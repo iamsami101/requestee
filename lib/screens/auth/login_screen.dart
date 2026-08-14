@@ -74,112 +74,112 @@ class _LoginScreenState extends State<LoginScreen> {
               constraints: const BoxConstraints(maxWidth: 420),
               child: Column(
                 key: const ValueKey('login-form'),
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Text(
-                      'requesT',
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.spaceGrotesk(
-                        fontSize: 40,
-                        fontWeight: FontWeight.w700,
-                        letterSpacing: -1.2,
-                        color: palette.charcoal,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    'requesT',
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.spaceGrotesk(
+                      fontSize: 40,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: -1.2,
+                      color: palette.charcoal,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Find a nearby, verified shop that can actually fix it.',
+                    textAlign: TextAlign.center,
+                    style: text.bodyMedium?.copyWith(color: palette.slate),
+                  ),
+                  const SizedBox(height: 32),
+                  TextField(
+                    controller: _email,
+                    keyboardType: TextInputType.emailAddress,
+                    autocorrect: false,
+                    textCapitalization: TextCapitalization.none,
+                    decoration: const InputDecoration(
+                      labelText: 'Email',
+                      prefixIcon: Icon(Icons.mail_outline_rounded),
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  const SizedBox(height: 14),
+                  TextField(
+                    controller: _password,
+                    obscureText: _obscure,
+                    decoration: InputDecoration(
+                      labelText: 'Password',
+                      prefixIcon: const Icon(Icons.lock_outline_rounded),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _obscure
+                              ? Icons.visibility_rounded
+                              : Icons.visibility_off_rounded,
+                        ),
+                        onPressed: () => setState(() => _obscure = !_obscure),
                       ),
+                      border: const OutlineInputBorder(),
                     ),
-                    const SizedBox(height: 8),
-                    Text(
-                      'Find a nearby, verified shop that can actually fix it.',
-                      textAlign: TextAlign.center,
-                      style: text.bodyMedium?.copyWith(color: palette.slate),
-                    ),
-                    const SizedBox(height: 32),
-                    TextField(
-                      controller: _email,
-                      keyboardType: TextInputType.emailAddress,
-                      autocorrect: false,
-                      textCapitalization: TextCapitalization.none,
-                      decoration: const InputDecoration(
-                        labelText: 'Email',
-                        prefixIcon: Icon(Icons.mail_outline_rounded),
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                    const SizedBox(height: 14),
-                    TextField(
-                      controller: _password,
-                      obscureText: _obscure,
-                      decoration: InputDecoration(
-                        labelText: 'Password',
-                        prefixIcon: const Icon(Icons.lock_outline_rounded),
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            _obscure
-                                ? Icons.visibility_rounded
-                                : Icons.visibility_off_rounded,
+                    onSubmitted: (_) => _signIn(),
+                  ),
+                  const SizedBox(height: 22),
+                  ListenableBuilder(
+                    listenable: widget.auth,
+                    builder: (context, _) {
+                      return FilledButton(
+                        onPressed: widget.auth.busy ? null : _signIn,
+                        child: widget.auth.busy
+                            ? const SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2.5,
+                                  color: Colors.white,
+                                ),
+                              )
+                            : const Text('Log in'),
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 14),
+                  ListenableBuilder(
+                    listenable: widget.auth,
+                    builder: (context, _) {
+                      return OutlinedButton.icon(
+                        onPressed: widget.auth.busy ? null : _google,
+                        icon: const Text(
+                          'G',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w800,
+                            color: AppColors.signalCoral,
                           ),
-                          onPressed: () => setState(() => _obscure = !_obscure),
                         ),
-                        border: const OutlineInputBorder(),
+                        label: const Text('Continue with Google'),
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 24),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'New here?',
+                        style: text.bodyMedium?.copyWith(color: palette.slate),
                       ),
-                      onSubmitted: (_) => _signIn(),
-                    ),
-                    const SizedBox(height: 22),
-                    ListenableBuilder(
-                      listenable: widget.auth,
-                      builder: (context, _) {
-                        return FilledButton(
-                          onPressed: widget.auth.busy ? null : _signIn,
-                          child: widget.auth.busy
-                              ? const SizedBox(
-                                  width: 20,
-                                  height: 20,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2.5,
-                                    color: Colors.white,
-                                  ),
-                                )
-                              : const Text('Log in'),
-                        );
-                      },
-                    ),
-                    const SizedBox(height: 14),
-                    ListenableBuilder(
-                      listenable: widget.auth,
-                      builder: (context, _) {
-                        return OutlinedButton.icon(
-                          onPressed: widget.auth.busy ? null : _google,
-                          icon: const Text(
-                            'G',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w800,
-                              color: AppColors.signalCoral,
-                            ),
-                          ),
-                          label: const Text('Continue with Google'),
-                        );
-                      },
-                    ),
-                    const SizedBox(height: 24),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'New here?',
-                          style: text.bodyMedium?.copyWith(color: palette.slate),
-                        ),
-                        TextButton(
-                          onPressed: _goSignUp,
-                          child: const Text('Create an account'),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+                      TextButton(
+                        onPressed: _goSignUp,
+                        child: const Text('Create an account'),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
           ),
         ),
+      ),
     );
   }
 }

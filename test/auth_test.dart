@@ -65,36 +65,39 @@ void main() {
     expect(find.text("What's going on?"), findsOneWidget);
   });
 
-  testWidgets('settings shows profile and theme override, sign out returns to login', (
-    tester,
-  ) async {
-    final auth = AuthController(DemoAuthService());
-    await auth.restore();
-    await auth.signUp('demo@requestee.app', 'password123');
+  testWidgets(
+    'settings shows profile and theme override, sign out returns to login',
+    (
+      tester,
+    ) async {
+      final auth = AuthController(DemoAuthService());
+      await auth.restore();
+      await auth.signUp('demo@requestee.app', 'password123');
 
-    final store = AppStore();
-    await tester.pumpWidget(
-      RequestTApp(store: store, auth: auth, settings: SettingsController()),
-    );
-    await tester.pumpAndSettle();
+      final store = AppStore();
+      await tester.pumpWidget(
+        RequestTApp(store: store, auth: auth, settings: SettingsController()),
+      );
+      await tester.pumpAndSettle();
 
-    // Open settings via the profile avatar (initials "D").
-    await tester.tap(find.byTooltip('Settings'));
-    await tester.pumpAndSettle();
-    expect(find.text('Settings'), findsOneWidget);
-    expect(find.text('demo@requestee.app'), findsOneWidget);
+      // Open settings via the profile avatar (initials "D").
+      await tester.tap(find.byTooltip('Settings'));
+      await tester.pumpAndSettle();
+      expect(find.text('Settings'), findsOneWidget);
+      expect(find.text('demo@requestee.app'), findsOneWidget);
 
-    // Switch to dark theme; the ThemeMode override sticks.
-    await tester.ensureVisible(find.text('Dark'));
-    await tester.pumpAndSettle();
-    await tester.tap(find.text('Dark'));
-    await tester.pumpAndSettle();
-    final materialApp = tester.widget<MaterialApp>(find.byType(MaterialApp));
-    expect(materialApp.themeMode, ThemeMode.dark);
+      // Switch to dark theme; the ThemeMode override sticks.
+      await tester.ensureVisible(find.text('Dark'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Dark'));
+      await tester.pumpAndSettle();
+      final materialApp = tester.widget<MaterialApp>(find.byType(MaterialApp));
+      expect(materialApp.themeMode, ThemeMode.dark);
 
-    // Sign out lands back on the login screen.
-    await tester.tap(find.text('Sign out'));
-    await tester.pumpAndSettle();
-    expect(find.text('Log in'), findsOneWidget);
-  });
+      // Sign out lands back on the login screen.
+      await tester.tap(find.text('Sign out'));
+      await tester.pumpAndSettle();
+      expect(find.text('Log in'), findsOneWidget);
+    },
+  );
 }

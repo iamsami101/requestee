@@ -72,7 +72,8 @@ abstract class AuthService {
 
 /// Real Firebase Auth backed implementation.
 class FirebaseAuthService implements AuthService {
-  FirebaseAuthService({fb.FirebaseAuth? auth}) : _auth = auth ?? fb.FirebaseAuth.instance;
+  FirebaseAuthService({fb.FirebaseAuth? auth})
+    : _auth = auth ?? fb.FirebaseAuth.instance;
 
   final fb.FirebaseAuth _auth;
 
@@ -84,7 +85,9 @@ class FirebaseAuthService implements AuthService {
 
   @override
   Stream<AuthUser?> authStateChanges() {
-    return _auth.authStateChanges().map((u) => u == null ? null : _fromFirebase(u));
+    return _auth.authStateChanges().map(
+      (u) => u == null ? null : _fromFirebase(u),
+    );
   }
 
   @override
@@ -154,7 +157,9 @@ class FirebaseAuthService implements AuthService {
 
   AuthUser _fromFirebase(fb.User u) => AuthUser(
     uid: u.uid,
-    provider: u.providerData.isEmpty ? 'email' : u.providerData.first.providerId,
+    provider: u.providerData.isEmpty
+        ? 'email'
+        : u.providerData.first.providerId,
     email: u.email,
     displayName: u.displayName,
     photoUrl: u.photoURL,
@@ -162,8 +167,9 @@ class FirebaseAuthService implements AuthService {
 
   String _friendly(String code) => switch (code) {
     'invalid-email' => 'That email address doesn\'t look right.',
-    'user-not-found' || 'wrong-password' || 'invalid-credential' =>
-      'Incorrect email or password.',
+    'user-not-found' ||
+    'wrong-password' ||
+    'invalid-credential' => 'Incorrect email or password.',
     'user-disabled' => 'This account has been disabled.',
     'email-already-in-use' => 'An account already exists for that email.',
     'weak-password' => 'Password must be at least 6 characters.',
@@ -196,25 +202,30 @@ class DemoAuthService implements AuthService {
     if (password.length < 6) {
       throw const AuthException('Password must be at least 6 characters.');
     }
-    return _set(AuthUser(
-      uid: 'demo-$clean',
-      provider: 'email',
-      email: clean,
-      displayName: _nameFromEmail(clean),
-    ));
+    return _set(
+      AuthUser(
+        uid: 'demo-$clean',
+        provider: 'email',
+        email: clean,
+        displayName: _nameFromEmail(clean),
+      ),
+    );
   }
 
   @override
-  Future<AuthUser> signUp(String email, String password) => signInWithEmail(email, password);
+  Future<AuthUser> signUp(String email, String password) =>
+      signInWithEmail(email, password);
 
   @override
   Future<AuthUser> signInWithGoogle() async {
-    return _set(const AuthUser(
-      uid: 'demo-google',
-      provider: 'google',
-      email: 'demo@requestee.app',
-      displayName: 'Demo Explorer',
-    ));
+    return _set(
+      const AuthUser(
+        uid: 'demo-google',
+        provider: 'google',
+        email: 'demo@requestee.app',
+        displayName: 'Demo Explorer',
+      ),
+    );
   }
 
   @override
