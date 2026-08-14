@@ -152,6 +152,208 @@ abstract final class AppTheme {
     );
   }
 
+  /// Dark surface (design.md §4): desaturated, lightened accents on
+  /// Near-Black, elevation via progressively lighter panels.
+  static ThemeData get dark {
+    final base = ThemeData(
+      useMaterial3: true,
+      brightness: Brightness.dark,
+      scaffoldBackgroundColor: AppColors.nearBlack,
+      colorScheme: const ColorScheme.dark(
+        primary: AppColors.coralGlow,
+        onPrimary: AppColors.nearBlack,
+        primaryContainer: AppColors.emberDeep,
+        onPrimaryContainer: Colors.white,
+        secondary: AppColors.tealGlow,
+        onSecondary: AppColors.nearBlack,
+        secondaryContainer: AppColors.tealWash,
+        onSecondaryContainer: AppColors.tealGlow,
+        surface: AppColors.charcoalPanel,
+        onSurface: AppColors.offWhite,
+        onSurfaceVariant: AppColors.fog,
+        error: AppColors.emberDeep,
+        outline: AppColors.iron,
+      ),
+      fontFamily: GoogleFonts.inter().fontFamily,
+      dividerColor: AppColors.iron,
+      textTheme: _darkTextTheme,
+      appBarTheme: AppBarTheme(
+        backgroundColor: AppColors.nearBlack,
+        foregroundColor: AppColors.offWhite,
+        elevation: 0,
+        scrolledUnderElevation: 0,
+        centerTitle: false,
+        titleTextStyle: TextStyle(
+          fontFamily: GoogleFonts.spaceGrotesk().fontFamily,
+          fontSize: 20,
+          fontWeight: FontWeight.w700,
+          color: AppColors.offWhite,
+          letterSpacing: -0.3,
+        ),
+      ),
+      cardTheme: CardThemeData(
+        color: AppColors.charcoalPanel,
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(radiusCard),
+          side: const BorderSide(color: AppColors.iron),
+        ),
+        margin: EdgeInsets.zero,
+      ),
+      chipTheme: ChipThemeData(
+        backgroundColor: AppColors.charcoalPanel,
+        side: const BorderSide(color: AppColors.iron),
+        labelStyle: GoogleFonts.inter(
+          fontSize: 13,
+          fontWeight: FontWeight.w600,
+          color: AppColors.offWhite,
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(radiusChip),
+        ),
+      ),
+      filledButtonTheme: FilledButtonThemeData(
+        style: FilledButton.styleFrom(
+          backgroundColor: AppColors.coralGlow,
+          foregroundColor: AppColors.nearBlack,
+          minimumSize: const Size(0, 52),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(radiusChip),
+          ),
+          textStyle: GoogleFonts.inter(
+            fontSize: 15,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+      ),
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+          foregroundColor: AppColors.tealGlow,
+          side: const BorderSide(color: AppColors.tealGlow, width: 1.5),
+          minimumSize: const Size(0, 52),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(radiusChip),
+          ),
+          textStyle: GoogleFonts.inter(
+            fontSize: 15,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: AppColors.charcoalPanel,
+        hintStyle: GoogleFonts.inter(
+          fontSize: 16,
+          color: AppColors.fog,
+        ),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 18,
+          vertical: 18,
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(radiusChip),
+          borderSide: const BorderSide(color: AppColors.iron),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(radiusChip),
+          borderSide: const BorderSide(color: AppColors.iron),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(radiusChip),
+          borderSide: const BorderSide(
+            color: AppColors.coralGlow,
+            width: 1.5,
+          ),
+        ),
+      ),
+      bottomSheetTheme: const BottomSheetThemeData(
+        backgroundColor: AppColors.slatePanel,
+        showDragHandle: true,
+        surfaceTintColor: Colors.transparent,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(radiusSheet),
+          ),
+        ),
+      ),
+      snackBarTheme: SnackBarThemeData(
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: AppColors.tealWash,
+        contentTextStyle: GoogleFonts.inter(
+          fontSize: 14,
+          fontWeight: FontWeight.w500,
+          color: AppColors.offWhite,
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(radiusChip),
+        ),
+      ),
+    );
+
+    return base.copyWith(
+      textTheme: _darkTextTheme,
+    );
+  }
+
+  static final TextTheme _darkTextTheme = TextTheme(
+    displaySmall: GoogleFonts.spaceGrotesk(
+      fontSize: 30,
+      fontWeight: FontWeight.w700,
+      color: AppColors.offWhite,
+      letterSpacing: -0.8,
+    ),
+    headlineMedium: GoogleFonts.spaceGrotesk(
+      fontSize: 24,
+      fontWeight: FontWeight.w700,
+      color: AppColors.offWhite,
+      letterSpacing: -0.5,
+    ),
+    headlineSmall: GoogleFonts.spaceGrotesk(
+      fontSize: 20,
+      fontWeight: FontWeight.w600,
+      color: AppColors.offWhite,
+      letterSpacing: -0.3,
+    ),
+    titleLarge: GoogleFonts.spaceGrotesk(
+      fontSize: 18,
+      fontWeight: FontWeight.w600,
+      color: AppColors.offWhite,
+    ),
+    titleMedium: GoogleFonts.inter(
+      fontSize: 16,
+      fontWeight: FontWeight.w600,
+      color: AppColors.offWhite,
+    ),
+    bodyLarge: GoogleFonts.inter(
+      fontSize: 16,
+      fontWeight: FontWeight.w400,
+      color: AppColors.offWhite,
+      height: 1.4,
+    ),
+    bodyMedium: GoogleFonts.inter(
+      fontSize: 15,
+      fontWeight: FontWeight.w400,
+      color: AppColors.offWhite,
+      height: 1.4,
+    ),
+    labelLarge: GoogleFonts.inter(
+      fontSize: 14,
+      fontWeight: FontWeight.w700,
+      color: AppColors.offWhite,
+    ),
+    labelMedium: GoogleFonts.inter(
+      fontSize: 13,
+      fontWeight: FontWeight.w600,
+      color: AppColors.fog,
+    ),
+    labelSmall: GoogleFonts.inter(
+      fontSize: 12,
+      fontWeight: FontWeight.w600,
+      color: AppColors.fog,
+    ),
+  );
+
   static final TextTheme _textTheme = TextTheme(
     displaySmall: GoogleFonts.spaceGrotesk(
       fontSize: 30,
