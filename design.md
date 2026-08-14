@@ -52,7 +52,54 @@ of pure red. Teal is the counterweight — it's the color of "resolved"
 and "verified," so a user should start a flow in coral and land on
 teal when a job is booked/completed.
 
-## 4. Typography
+## 4. Dark Theme
+
+Dark mode is a required surface, not an optional palette swap. Signal
+Coral at full saturation vibrates uncomfortably against near-black
+backgrounds, so the dark palette desaturates and slightly lightens
+the accent colors rather than reusing the light-mode hex values
+directly.
+
+| Role | Color | Hex | Usage |
+|---|---|---|---|
+| Primary (Action) | Coral Glow | `#FF7A68` | CTA buttons, "Post a request," active states |
+| Primary Dark | Ember Deep | `#E0503D` | Pressed states, hover on primary |
+| Trust / Verified | Teal Glow | `#3FA98D` | Verified badges, ratings, completed status |
+| Trust Surface | Teal Wash | `#123A32` | Backgrounds behind trust signals, success toasts |
+| Neutral Ink | Off-White | `#F2F1EE` | Primary text |
+| Neutral Mid | Fog | `#9CA3AF` | Secondary text, metadata (distance, time) |
+| Neutral Bg | Near-Black | `#121314` | App background |
+| Surface | Charcoal Panel | `#1C1E21` | Cards, sheets |
+| Surface Raised | Slate Panel | `#26282C` | Elevated cards, modals |
+| Alert / Urgent | Amber Glow | `#F5BE63` | Urgency tags ("Same-day," "Emergency") |
+| Divider | Iron | `#33353A` | Borders, separators |
+
+**Dark mode principles:**
+
+- **Desaturate, then lighten:** Every accent color (coral, teal,
+  amber) gets a lighter, slightly less saturated variant for dark
+  backgrounds — this keeps contrast comfortable (WCAG AA minimum
+  against Near-Black) without the neon effect of using light-mode
+  hex values as-is.
+- **No pure black:** Background is `#121314`, not `#000000` — pure
+  black next to Coral Glow creates excessive contrast and eye strain
+  during quick glance usage.
+- **Elevation via lightness, not shadow:** Since shadows barely read
+  on dark backgrounds, elevate surfaces (cards, modals, sheets) with
+  progressively lighter panel colors (`#1C1E21` → `#26282C`) instead
+  of relying on drop shadows.
+- **Trust-teal stays legible:** Teal Glow (`#3FA98D`) is tuned to
+  keep verified badges and ratings readable at small caption sizes on
+  dark surfaces, where the light-mode Deep Teal would look muddy.
+- **Images/icons:** Line icons switch from Charcoal stroke to
+  Off-White stroke; illustrated category tiles get a dark-mode variant
+  rather than just an opacity/invert filter, so they don't look washed
+  out.
+- **System-driven by default:** Theme should follow the OS-level
+  light/dark setting on first launch, with a manual override
+  available in settings.
+
+## 5. Typography
 
 - **Display / Headings:** A confident, slightly condensed geometric
   sans — e.g. **Aeonik** or **Space Grotesk** as an open-source
@@ -72,7 +119,7 @@ teal when a job is booked/completed.
   - Body: 15–16px, Regular
   - Caption / metadata: 13px, Medium, Slate color
 
-## 5. Iconography & Imagery
+## 6. Iconography & Imagery
 
 - Icons: rounded-corner line icons, 2px stroke — friendly but precise,
   not playful/cartoonish. Category icons (plumbing, electronics,
@@ -84,7 +131,7 @@ teal when a job is booked/completed.
   category tiles for the "what's your issue?" entry screen, so it
   doesn't feel like a directory app.
 
-## 6. Motion & Animation
+## 7. Motion & Animation
 
 Motion should communicate the emotional arc from §1: **tension →
 resolution**.
@@ -111,7 +158,7 @@ resolution**.
   Avoid bouncy/playful easing outside the two moments above — this
   isn't a social/entertainment app.
 
-## 7. UI Surfaces & Layout Principles
+## 8. UI Surfaces & Layout Principles
 
 - **Cards over lists:** Shop matches render as cards (photo/icon,
   name, rating, distance, urgency-fit tag, price band) rather than
@@ -123,9 +170,9 @@ resolution**.
   and "Request on-site" (coral-filled) — visually distinct because
   they're functionally different commitments.
 - **Empty/loading states should never feel dead:** use the radar-pulse
-  motion (§6) rather than static spinners or blank screens.
+  motion (§7) rather than static spinners or blank screens.
 
-## 8. Voice & Microcopy
+## 9. Voice & Microcopy
 
 - Short, plain-language, no jargon. "What's going on?" instead of
   "Submit service request."
@@ -135,10 +182,3 @@ resolution**.
 - Urgency framing without alarmism: "Same-day available" rather than
   "URGENT!!"
 
-## 9. Open Questions
-
-- Is there a dark mode requirement, and if so, does Signal Coral need
-  a desaturated variant to avoid vibrating against a dark background?
-- Platform target (iOS/Android native vs. cross-platform) will affect
-  whether the motion timings above map to native transition APIs or
-  need a custom animation layer.
