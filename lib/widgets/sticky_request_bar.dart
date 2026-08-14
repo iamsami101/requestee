@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/service_request.dart';
-import '../theme/app_colors.dart';
+import '../theme/adaptive_palette.dart';
 
 /// Persistent compact summary of "what you asked for" shown while browsing
 /// matches (design.md §7). Keeps the user anchored to their original issue.
@@ -14,13 +14,14 @@ class StickyRequestBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final text = Theme.of(context).textTheme;
+    final palette = context.palette;
     return Material(
-      color: AppColors.surface,
+      color: palette.surface,
       elevation: 0,
       child: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           border: Border(
-            bottom: BorderSide(color: AppColors.mist),
+            bottom: BorderSide(color: palette.mist),
           ),
         ),
         padding: const EdgeInsets.fromLTRB(16, 12, 8, 12),
@@ -30,13 +31,13 @@ class StickyRequestBar extends StatelessWidget {
               width: 38,
               height: 38,
               decoration: BoxDecoration(
-                color: AppColors.signalCoral.withValues(alpha: 0.12),
+                color: palette.signalCoral.withValues(alpha: 0.12),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Icon(
                 Icons.edit_note_rounded,
                 size: 20,
-                color: AppColors.signalCoral,
+                color: palette.signalCoral,
               ),
             ),
             const SizedBox(width: 12),
@@ -47,7 +48,7 @@ class StickyRequestBar extends StatelessWidget {
                   Text(
                     request.category.label,
                     style: text.labelSmall?.copyWith(
-                      color: AppColors.slate,
+                      color: palette.slate,
                       fontSize: 11,
                       letterSpacing: 0.4,
                     ),
@@ -65,9 +66,9 @@ class StickyRequestBar extends StatelessWidget {
             if (onTap != null)
               IconButton(
                 onPressed: onTap,
-                icon: const Icon(
+                icon: Icon(
                   Icons.chevron_right_rounded,
-                  color: AppColors.slate,
+                  color: palette.slate,
                 ),
               ),
           ],

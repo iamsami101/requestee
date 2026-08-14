@@ -7,7 +7,7 @@ import '../data/matcher.dart';
 import '../models/category.dart';
 import '../models/service_request.dart';
 import '../models/shop.dart';
-import '../theme/app_colors.dart';
+import '../theme/adaptive_palette.dart';
 import '../widgets/radar_pulse.dart';
 import 'results_screen.dart';
 
@@ -60,11 +60,12 @@ class _MatchingScreenState extends State<MatchingScreen> {
   @override
   Widget build(BuildContext context) {
     final text = Theme.of(context).textTheme;
+    final palette = context.palette;
     final inferred = Classifier.classify(widget.request.text);
     final hasMatches = _matches != null;
 
     return Scaffold(
-      backgroundColor: AppColors.paper,
+      backgroundColor: palette.paper,
       body: SafeArea(
         child: Center(
           child: Column(
@@ -78,9 +79,9 @@ class _MatchingScreenState extends State<MatchingScreen> {
                   curve: Curves.easeOut,
                 )
               else
-                const Icon(
+                Icon(
                   Icons.check_circle_rounded,
-                  color: AppColors.deepTeal,
+                  color: palette.deepTeal,
                   size: 64,
                 ).animate().scale(),
               const SizedBox(height: 40),
@@ -106,24 +107,24 @@ class _MatchingScreenState extends State<MatchingScreen> {
                     Text(
                       widget.request.summary,
                       textAlign: TextAlign.center,
-                      style: text.bodyMedium?.copyWith(color: AppColors.slate),
+                      style: text.bodyMedium?.copyWith(color: palette.slate),
                     ),
                     const SizedBox(height: 16),
                     Chip(
-                      avatar: const Icon(
+                      avatar: Icon(
                         Icons.category_rounded,
                         size: 16,
-                        color: AppColors.deepTeal,
+                        color: palette.deepTeal,
                       ),
                       label: Text(inferred.category.label),
                     ),
                     if (inferred.urgency != UrgencyTier.standard) ...[
                       const SizedBox(height: 8),
                       Chip(
-                        avatar: const Icon(
+                        avatar: Icon(
                           Icons.bolt_rounded,
                           size: 16,
-                          color: AppColors.amber,
+                          color: palette.amber,
                         ),
                         label: Text(inferred.urgency.label),
                       ),

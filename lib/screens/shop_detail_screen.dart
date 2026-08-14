@@ -5,7 +5,7 @@ import '../data/app_store.dart';
 import '../models/category.dart';
 import '../models/service_request.dart';
 import '../models/shop.dart';
-import '../theme/app_colors.dart';
+import '../theme/adaptive_palette.dart';
 import '../theme/app_theme.dart';
 import '../widgets/verified_badge.dart';
 import 'booking_screen.dart';
@@ -51,7 +51,7 @@ class _ShopDetailScreenState extends State<ShopDetailScreen> {
     );
 
     return Scaffold(
-      backgroundColor: AppColors.paper,
+      backgroundColor: context.palette.paper,
       appBar: AppBar(title: const Text('Shop details')),
       body: ListView(
         padding: const EdgeInsets.all(16),
@@ -79,17 +79,17 @@ class _ShopDetailScreenState extends State<ShopDetailScreen> {
                             const SizedBox(height: 8),
                             Row(
                               children: [
-                                const Icon(
+                                Icon(
                                   Icons.star_rounded,
                                   size: 18,
-                                  color: AppColors.deepTeal,
+                                  color: context.palette.deepTeal,
                                 ),
                                 const SizedBox(width: 4),
                                 Text(
                                   shop.avgRating.toStringAsFixed(1),
                                   style: AppTheme.tabular(
                                     text.titleMedium!,
-                                  ).copyWith(color: AppColors.deepTeal),
+                                  ).copyWith(color: context.palette.deepTeal),
                                 ),
                                 const SizedBox(width: 6),
                                 Text(
@@ -125,7 +125,7 @@ class _ShopDetailScreenState extends State<ShopDetailScreen> {
                   _ReputationRow(
                     label: 'Completion rate',
                     value: '${shop.completionRate}%',
-                    color: AppColors.deepTeal,
+                    color: context.palette.deepTeal,
                   ),
                   const SizedBox(height: 12),
                   _ReputationRow(
@@ -133,7 +133,7 @@ class _ShopDetailScreenState extends State<ShopDetailScreen> {
                     value: shop.responseMins <= 30
                         ? '${shop.responseMins} min'
                         : '${shop.responseMins} min',
-                    color: AppColors.deepTeal,
+                    color: context.palette.deepTeal,
                   ),
                   const SizedBox(height: 12),
                   _ReputationRow(
@@ -141,14 +141,14 @@ class _ShopDetailScreenState extends State<ShopDetailScreen> {
                     value: reputation.ratingConsistency <= 0.15
                         ? 'Very consistent'
                         : 'Moderately consistent',
-                    color: AppColors.deepTeal,
+                    color: context.palette.deepTeal,
                   ),
                   const SizedBox(height: 12),
                   _ReputationRow(
                     label: 'Dispute rate',
                     value:
                         '${(reputation.disputeRate * 100).toStringAsFixed(0)}%',
-                    color: AppColors.deepTeal,
+                    color: context.palette.deepTeal,
                   ),
                   const Divider(height: 24),
                   Row(
@@ -159,7 +159,7 @@ class _ShopDetailScreenState extends State<ShopDetailScreen> {
                         reputation.score.toStringAsFixed(0),
                         style: AppTheme.tabular(
                           text.titleLarge!.copyWith(
-                            color: AppColors.deepTeal,
+                            color: context.palette.deepTeal,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
@@ -246,7 +246,7 @@ class _Avatar extends StatelessWidget {
       width: size,
       height: size,
       decoration: BoxDecoration(
-        color: AppColors.mintWash,
+        color: context.palette.mintWash,
         borderRadius: BorderRadius.circular(size * 0.28),
       ),
       alignment: Alignment.center,

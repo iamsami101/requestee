@@ -2,7 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
-import '../theme/app_colors.dart';
+import '../theme/adaptive_palette.dart';
 
 /// A teal checkmark that draws itself on (design.md §6) — the small moment of
 /// reassurance when a shop's reputation is revealed.
@@ -58,7 +58,10 @@ class _VerifiedBadgeState extends State<VerifiedBadge>
         builder: (context, _) {
           final t = Curves.easeOut.transform(_controller.value);
           return CustomPaint(
-            painter: _CheckPainter(progress: t),
+            painter: _CheckPainter(
+              progress: t,
+              color: context.palette.deepTeal,
+            ),
           );
         },
       ),
@@ -67,16 +70,17 @@ class _VerifiedBadgeState extends State<VerifiedBadge>
 }
 
 class _CheckPainter extends CustomPainter {
-  _CheckPainter({required this.progress});
+  _CheckPainter({required this.progress, required this.color});
 
   final double progress;
+  final Color color;
 
   @override
   void paint(Canvas canvas, Size size) {
     final radius = size.width / 2;
     final center = Offset(size.width / 2, size.height / 2);
 
-    final circlePaint = Paint()..color = AppColors.deepTeal;
+    final circlePaint = Paint()..color = color;
     canvas.drawCircle(center, radius, circlePaint);
 
     final checkPaint = Paint()
@@ -101,7 +105,7 @@ class _CheckPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_CheckPainter oldDelegate) =>
-      oldDelegate.progress != progress;
+      oldDelegate.progress != progress || oldDelegate.color != color;
 }
 
 /// Small inline verified chip: teal dot + "Verified" label.
@@ -120,7 +124,7 @@ class VerifiedLabel extends StatelessWidget {
         Text(
           'Verified',
           style: Theme.of(context).textTheme.labelMedium?.copyWith(
-            color: AppColors.deepTeal,
+            color: context.palette.deepTeal,
             fontSize: compact ? 11 : 12,
           ),
         ),
@@ -143,7 +147,7 @@ class ShopAvatar extends StatelessWidget {
       width: size,
       height: size,
       decoration: BoxDecoration(
-        color: AppColors.mintWash,
+        color: context.palette.mintWash,
         borderRadius: BorderRadius.circular(size * 0.3),
       ),
       alignment: Alignment.center,

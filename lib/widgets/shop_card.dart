@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/shop.dart';
-import '../theme/app_colors.dart';
+import '../theme/adaptive_palette.dart';
 import '../theme/app_theme.dart';
 import 'verified_badge.dart';
 
@@ -30,6 +30,7 @@ class ShopCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final text = theme.textTheme;
+    final palette = context.palette;
 
     return Card(
       child: InkWell(
@@ -77,12 +78,12 @@ class ShopCard extends StatelessWidget {
                           children: [
                             _MetaPill(
                               icon: Icons.star_rounded,
-                              color: AppColors.deepTeal,
+                              color: palette.deepTeal,
                               text:
                                   AppTheme.tabular(
                                     text.labelMedium!,
                                   ).copyWith(
-                                    color: AppColors.deepTeal,
+                                    color: palette.deepTeal,
                                     fontWeight: FontWeight.w700,
                                   ),
                               value: '${shop.avgRating}',
@@ -90,7 +91,7 @@ class ShopCard extends StatelessWidget {
                             _MetaText(text, '${shop.ratingCount} reviews'),
                             _MetaPill(
                               icon: Icons.near_me_rounded,
-                              color: AppColors.slate,
+                              color: palette.slate,
                               text: text.labelMedium!,
                               value: '${shop.distanceKm.toStringAsFixed(1)} km',
                             ),
@@ -111,13 +112,13 @@ class ShopCard extends StatelessWidget {
                       vertical: 4,
                     ),
                     decoration: BoxDecoration(
-                      color: AppColors.amber.withValues(alpha: 0.18),
+                      color: palette.amber.withValues(alpha: 0.18),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Text(
                       urgencyTag,
                       style: text.labelSmall?.copyWith(
-                        color: AppColors.charcoal,
+                        color: palette.charcoal,
                         fontWeight: FontWeight.w600,
                         fontSize: 11,
                       ),
@@ -128,7 +129,7 @@ class ShopCard extends StatelessWidget {
                     Icon(
                       Icons.schedule,
                       size: 14,
-                      color: AppColors.slate.withValues(alpha: 0.8),
+                      color: palette.slate.withValues(alpha: 0.8),
                     ),
                     const SizedBox(width: 4),
                     Text(
@@ -212,7 +213,7 @@ class _MetaText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       value,
-      style: text.labelMedium?.copyWith(color: AppColors.slate),
+      style: text.labelMedium?.copyWith(color: context.palette.slate),
     );
   }
 }

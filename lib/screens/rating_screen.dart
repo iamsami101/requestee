@@ -3,7 +3,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 
 import '../data/app_store.dart';
 import '../models/booking.dart';
-import '../theme/app_colors.dart';
+import '../theme/adaptive_palette.dart';
 
 /// Post-job rating that feeds back into the shop's reliability score
 /// (agents.md §3.1 → §3.4, MVP §5 "Post-job rating").
@@ -40,10 +40,11 @@ class _RatingScreenState extends State<RatingScreen> {
   @override
   Widget build(BuildContext context) {
     final text = Theme.of(context).textTheme;
+    final palette = context.palette;
     final shop = widget.booking.shop;
 
     return Scaffold(
-      backgroundColor: AppColors.paper,
+      backgroundColor: palette.paper,
       appBar: AppBar(
         title: const Text('Rate the job'),
         leading: IconButton(
@@ -62,7 +63,7 @@ class _RatingScreenState extends State<RatingScreen> {
                   width: 84,
                   height: 84,
                   decoration: BoxDecoration(
-                    color: AppColors.mintWash,
+                    color: palette.mintWash,
                     borderRadius: BorderRadius.circular(24),
                   ),
                   alignment: Alignment.center,
@@ -81,7 +82,7 @@ class _RatingScreenState extends State<RatingScreen> {
                 Text(
                   'Your rating feeds straight into their reliability score.',
                   textAlign: TextAlign.center,
-                  style: text.bodyMedium?.copyWith(color: AppColors.slate),
+                  style: text.bodyMedium?.copyWith(color: palette.slate),
                 ),
                 const SizedBox(height: 28),
                 Row(
@@ -99,7 +100,7 @@ class _RatingScreenState extends State<RatingScreen> {
                             filled
                                 ? Icons.star_rounded
                                 : Icons.star_outline_rounded,
-                            color: filled ? AppColors.amber : AppColors.mist,
+                            color: filled ? palette.amber : palette.mist,
                           ).animate().scale(
                             begin: const Offset(0.7, 0.7),
                             end: const Offset(1, 1),
@@ -115,7 +116,7 @@ class _RatingScreenState extends State<RatingScreen> {
                   child: FilledButton(
                     onPressed: _stars == 0 || _submitting ? null : _submit,
                     style: FilledButton.styleFrom(
-                      backgroundColor: AppColors.deepTeal,
+                      backgroundColor: palette.deepTeal,
                       foregroundColor: Colors.white,
                     ),
                     child: Text(_submitting ? 'Submitting…' : 'Submit rating'),

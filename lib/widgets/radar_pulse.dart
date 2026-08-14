@@ -2,7 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
-import '../theme/app_colors.dart';
+import '../theme/adaptive_palette.dart';
 
 /// Radar-style pulse animation centred on the user's location while matching
 /// (design.md §6). Expanding coral rings fading to transparent — no spinner.
@@ -10,11 +10,13 @@ class RadarPulse extends StatefulWidget {
   const RadarPulse({
     super.key,
     this.size = 220,
-    this.ringColor = AppColors.signalCoral,
+    this.ringColor,
   });
 
   final double size;
-  final Color ringColor;
+
+  /// When null the active theme's signal color is used.
+  final Color? ringColor;
 
   @override
   State<RadarPulse> createState() => _RadarPulseState();
@@ -42,6 +44,7 @@ class _RadarPulseState extends State<RadarPulse>
   @override
   Widget build(BuildContext context) {
     final dotSize = widget.size * 0.12;
+    final color = widget.ringColor ?? context.palette.signalCoral;
     return SizedBox(
       width: widget.size,
       height: widget.size,
@@ -50,7 +53,7 @@ class _RadarPulseState extends State<RadarPulse>
         builder: (context, _) => CustomPaint(
           painter: _RadarPainter(
             progress: _controller.value,
-            ringColor: widget.ringColor,
+            ringColor: color,
           ),
           child: Center(
             child: Container(
@@ -58,10 +61,10 @@ class _RadarPulseState extends State<RadarPulse>
               height: dotSize,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: AppColors.signalCoral,
+                color: color,
                 boxShadow: [
                   BoxShadow(
-                    color: AppColors.signalCoral.withValues(alpha: 0.45),
+                    color: color.withValues(alpha: 0.45),
                     blurRadius: dotSize * 0.9,
                     spreadRadius: dotSize * 0.25,
                   ),

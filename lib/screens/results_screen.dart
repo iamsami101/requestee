@@ -5,7 +5,7 @@ import '../data/app_store.dart';
 import '../models/category.dart';
 import '../models/service_request.dart';
 import '../models/shop.dart';
-import '../theme/app_colors.dart';
+import '../theme/adaptive_palette.dart';
 import '../widgets/shop_card.dart';
 import '../widgets/sticky_request_bar.dart';
 import 'booking_screen.dart';
@@ -37,9 +37,10 @@ class ResultsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final text = Theme.of(context).textTheme;
+    final palette = context.palette;
 
     return Scaffold(
-      backgroundColor: AppColors.paper,
+      backgroundColor: palette.paper,
       appBar: AppBar(
         title: const Text('Matches'),
         leading: IconButton(
@@ -61,7 +62,7 @@ class ResultsScreen extends StatelessWidget {
                     child: Text(
                       'Ranked by reliability, not just distance',
                       style: text.labelMedium?.copyWith(
-                        color: AppColors.deepTeal,
+                        color: palette.deepTeal,
                       ),
                     ),
                   );

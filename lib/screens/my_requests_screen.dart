@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../data/app_store.dart';
 import '../models/booking.dart';
 import '../models/category.dart';
-import '../theme/app_colors.dart';
+import '../theme/adaptive_palette.dart';
 import 'rating_screen.dart';
 
 /// History of the user's jobs (agents.md §3.1). Completed jobs can be rated,
@@ -16,9 +16,10 @@ class MyRequestsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final text = Theme.of(context).textTheme;
+    final palette = context.palette;
 
     return Scaffold(
-      backgroundColor: AppColors.paper,
+      backgroundColor: palette.paper,
       appBar: AppBar(
         title: const Text('My requests'),
         leading: IconButton(
@@ -38,7 +39,7 @@ class MyRequestsScreen extends StatelessWidget {
                   Icon(
                     Icons.history_rounded,
                     size: 56,
-                    color: AppColors.mist,
+                    color: palette.mist,
                   ),
                   const SizedBox(height: 16),
                   Text(
@@ -48,7 +49,7 @@ class MyRequestsScreen extends StatelessWidget {
                   const SizedBox(height: 6),
                   Text(
                     'When you post an issue it shows up here.',
-                    style: text.bodyMedium?.copyWith(color: AppColors.slate),
+                    style: text.bodyMedium?.copyWith(color: palette.slate),
                   ),
                 ],
               ),
@@ -81,6 +82,7 @@ class _BookingTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final text = Theme.of(context).textTheme;
+    final palette = context.palette;
     final isDone = booking.status == BookingStatus.completed;
     final rated = booking.rating != null;
 
@@ -96,7 +98,7 @@ class _BookingTile extends StatelessWidget {
                   width: 44,
                   height: 44,
                   decoration: BoxDecoration(
-                    color: AppColors.mintWash,
+                    color: palette.mintWash,
                     borderRadius: BorderRadius.circular(12),
                   ),
                   alignment: Alignment.center,
@@ -135,7 +137,7 @@ class _BookingTile extends StatelessWidget {
                       ? Icons.near_me_rounded
                       : Icons.event_available_rounded,
                   size: 15,
-                  color: AppColors.slate,
+                  color: palette.slate,
                 ),
                 const SizedBox(width: 6),
                 Text(booking.slot, style: text.labelMedium),
@@ -158,16 +160,16 @@ class _BookingTile extends StatelessWidget {
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Icon(
+                      Icon(
                         Icons.star_rounded,
                         size: 16,
-                        color: AppColors.amber,
+                        color: palette.amber,
                       ),
                       const SizedBox(width: 4),
                       Text(
                         'You rated ${booking.rating}',
                         style: text.labelMedium?.copyWith(
-                          color: AppColors.deepTeal,
+                          color: palette.deepTeal,
                         ),
                       ),
                     ],
@@ -179,7 +181,7 @@ class _BookingTile extends StatelessWidget {
                       booking.status == BookingStatus.booked
                           ? 'Start job'
                           : 'Complete',
-                      style: const TextStyle(color: AppColors.slate),
+                      style: TextStyle(color: palette.slate),
                     ),
                   ),
               ],
@@ -198,15 +200,16 @@ class _StatusChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.palette;
     final (bg, fg) = switch (status) {
-      BookingStatus.booked => (AppColors.mintWash, AppColors.deepTeal),
+      BookingStatus.booked => (palette.mintWash, palette.deepTeal),
       BookingStatus.inProgress => (
-        AppColors.amber.withValues(alpha: 0.2),
-        AppColors.charcoal,
+        palette.amber.withValues(alpha: 0.2),
+        palette.charcoal,
       ),
       BookingStatus.completed => (
-        AppColors.deepTeal.withValues(alpha: 0.15),
-        AppColors.deepTeal,
+        palette.deepTeal.withValues(alpha: 0.15),
+        palette.deepTeal,
       ),
     };
     return Container(

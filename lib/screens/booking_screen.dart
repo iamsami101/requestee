@@ -5,7 +5,7 @@ import '../data/app_store.dart';
 import '../models/category.dart';
 import '../models/service_request.dart';
 import '../models/shop.dart';
-import '../theme/app_colors.dart';
+import '../theme/adaptive_palette.dart';
 import 'confirmation_screen.dart';
 
 /// Scheduling & dispatch (agents.md §3.6): in-shop appointment with time slots
@@ -50,7 +50,7 @@ class _BookingScreenState extends State<BookingScreen> {
         : 'Choose a time slot at ${widget.shop.name}.';
 
     return Scaffold(
-      backgroundColor: AppColors.paper,
+      backgroundColor: context.palette.paper,
       appBar: AppBar(title: Text(title)),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -67,7 +67,7 @@ class _BookingScreenState extends State<BookingScreen> {
                         width: 48,
                         height: 48,
                         decoration: BoxDecoration(
-                          color: AppColors.mintWash,
+                          color: context.palette.mintWash,
                           borderRadius: BorderRadius.circular(14),
                         ),
                         alignment: Alignment.center,
@@ -108,7 +108,7 @@ class _BookingScreenState extends State<BookingScreen> {
                           'pick a dispatch window below.'
                     : 'Pick a slot — shops confirm instantly on requesT.',
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: AppColors.slate,
+                  color: context.palette.slate,
                 ),
               ),
               const SizedBox(height: 16),
@@ -118,9 +118,9 @@ class _BookingScreenState extends State<BookingScreen> {
                     padding: const EdgeInsets.all(16),
                     child: Row(
                       children: [
-                        const Icon(
+                        Icon(
                           Icons.location_on_rounded,
-                          color: AppColors.signalCoral,
+                          color: context.palette.signalCoral,
                         ),
                         const SizedBox(width: 12),
                         Expanded(
@@ -146,18 +146,18 @@ class _BookingScreenState extends State<BookingScreen> {
                       ChoiceChip(
                         label: Text(slot),
                         selected: _selectedSlot == slot,
-                        selectedColor: AppColors.mintWash,
+                        selectedColor: context.palette.mintWash,
                         showCheckmark: false,
                         labelStyle: TextStyle(
                           color: _selectedSlot == slot
-                              ? AppColors.deepTeal
-                              : AppColors.charcoal,
+                              ? context.palette.deepTeal
+                              : context.palette.charcoal,
                           fontWeight: FontWeight.w600,
                         ),
                         side: BorderSide(
                           color: _selectedSlot == slot
-                              ? AppColors.deepTeal
-                              : AppColors.mist,
+                              ? context.palette.deepTeal
+                              : context.palette.mist,
                         ),
                         onSelected: (_) => setState(() => _selectedSlot = slot),
                       ),

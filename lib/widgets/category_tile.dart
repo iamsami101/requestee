@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/category.dart';
-import '../theme/app_colors.dart';
+import '../theme/adaptive_palette.dart';
 
 /// Illustrated category tile for the "what's your issue?" entry screen
 /// (design.md §5). Tappable and immediately scannable.
@@ -19,7 +19,8 @@ class CategoryTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = selected ? AppColors.signalCoral : AppColors.mintWash;
+    final palette = context.palette;
+    final color = selected ? palette.signalCoral : palette.mintWash;
     return Material(
       color: Colors.transparent,
       child: InkWell(
@@ -33,7 +34,7 @@ class CategoryTile extends StatelessWidget {
             color: color,
             borderRadius: BorderRadius.circular(20),
             border: Border.all(
-              color: selected ? AppColors.signalCoral : AppColors.mist,
+              color: selected ? palette.signalCoral : palette.mist,
               width: selected ? 1.5 : 1,
             ),
           ),
@@ -46,7 +47,7 @@ class CategoryTile extends StatelessWidget {
                 category.label,
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                  color: AppColors.charcoal,
+                  color: palette.charcoal,
                   fontSize: 12,
                   height: 1.1,
                 ),

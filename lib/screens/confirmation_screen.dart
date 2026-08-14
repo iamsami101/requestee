@@ -6,7 +6,7 @@ import '../data/app_store.dart';
 import '../models/booking.dart';
 import '../models/category.dart';
 import '../models/service_request.dart';
-import '../theme/app_colors.dart';
+import '../theme/adaptive_palette.dart';
 import '../theme/app_theme.dart';
 
 /// Booking confirmation (agents.md §3.6 → §3.1). Accent animates coral → teal,
@@ -48,8 +48,8 @@ class _ConfirmationScreenState extends State<ConfirmationScreen>
   }
 
   Color get _accent => Color.lerp(
-    AppColors.signalCoral,
-    AppColors.deepTeal,
+    context.palette.signalCoral,
+    context.palette.deepTeal,
     Curves.easeOut.transform(_controller.value),
   )!;
 
@@ -72,9 +72,10 @@ class _ConfirmationScreenState extends State<ConfirmationScreen>
   @override
   Widget build(BuildContext context) {
     final text = Theme.of(context).textTheme;
+    final palette = context.palette;
 
     return Scaffold(
-      backgroundColor: AppColors.surface,
+      backgroundColor: palette.surface,
       body: SafeArea(
         child: AnimatedBuilder(
           animation: _controller,
@@ -123,13 +124,13 @@ class _ConfirmationScreenState extends State<ConfirmationScreen>
                     Text(
                       _detail,
                       textAlign: TextAlign.center,
-                      style: text.bodyMedium?.copyWith(color: AppColors.slate),
+                      style: text.bodyMedium?.copyWith(color: palette.slate),
                     ),
                     const SizedBox(height: 36),
                     Container(
                       padding: const EdgeInsets.all(14),
                       decoration: BoxDecoration(
-                        color: AppColors.mintWash,
+                        color: palette.mintWash,
                         borderRadius: BorderRadius.circular(
                           AppTheme.radiusChip,
                         ),
@@ -137,16 +138,16 @@ class _ConfirmationScreenState extends State<ConfirmationScreen>
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          const Icon(
+                          Icon(
                             Icons.verified_rounded,
                             size: 18,
-                            color: AppColors.deepTeal,
+                            color: palette.deepTeal,
                           ),
                           const SizedBox(width: 8),
                           Text(
                             'Booking confirmed · #${widget.booking.id}',
                             style: text.labelLarge?.copyWith(
-                              color: AppColors.deepTeal,
+                              color: palette.deepTeal,
                               fontSize: 13,
                             ),
                           ),
@@ -166,7 +167,7 @@ class _ConfirmationScreenState extends State<ConfirmationScreen>
                           widget.booking.id,
                         ),
                         style: FilledButton.styleFrom(
-                          backgroundColor: AppColors.deepTeal,
+                          backgroundColor: palette.deepTeal,
                           foregroundColor: Colors.white,
                         ),
                         child: Text(
@@ -182,7 +183,7 @@ class _ConfirmationScreenState extends State<ConfirmationScreen>
                         (route) => route.isFirst,
                       ),
                       style: TextButton.styleFrom(
-                        foregroundColor: AppColors.slate,
+                        foregroundColor: palette.slate,
                       ),
                       child: const Text('Back to home'),
                     ),
